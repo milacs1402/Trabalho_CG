@@ -1,11 +1,26 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MenuPrincipalScript : MonoBehaviour
+public class MenuPrincipalManager : MonoBehaviour
 {
-    public void Jogar()
+    public GameObject painelMenuPrincipal; 
+    public GameObject painelComoJogar; 
+
+    void Start()
     {
-        SceneManager.LoadScene("seleção");
+        painelMenuPrincipal.SetActive(true);
+        painelComoJogar.SetActive(false);
+    }
+
+    public void MostrarPainelComoJogar()
+    {
+        painelMenuPrincipal.SetActive(false);
+        painelComoJogar.SetActive(true);
+    }
+
+    public void IniciarSelecaoDeCena()
+    {
+        SceneManager.LoadScene("Seleção");
     }
 
     public void Creditos()
