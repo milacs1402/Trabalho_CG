@@ -14,6 +14,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Pessoas.unity
     guid: f2f34a6990245334b98a764fa693dce5
+  - enabled: 1
+    path: Assets/Scenes/Creditos.unity
+    guid: 20514a71528715a41a298992e1d052c4
+  - enabled: 1
+    path: Assets/Scenes/Paz e Parceria.unity
+    guid: 144c86d01424cc04a88521ed92ab8f7d
+  - enabled: 1
+    path: Assets/Scenes/Planeta.unity
+    guid: 3d2671209d230744790f4e1e5979fc9e
+  - enabled: 1
+    path: Assets/Scenes/Prosperidade.unity
+    guid: d15670a6d3b4e7b489296be6b2c38ea2
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   m_UseUCBPForAssetBundles: 0

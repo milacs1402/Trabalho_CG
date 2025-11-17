@@ -25,7 +25,7 @@ public class MenuPrincipalManager : MonoBehaviour
 
     public void Creditos()
     {
-        Debug.Log("carregando créditos...");
+        SceneManager.LoadScene("Creditos");
     }
 
     public void Sair()
