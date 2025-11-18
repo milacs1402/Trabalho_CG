@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Inicial.unity
     guid: eb91cd1e6acf97b479338317b98a01e4
   - enabled: 1
-    path: "Assets/Scenes/Sele\xE7\xE3o.unity"
+    path: "Assets/Scenes/sele\xE7\xE3o.unity"
     guid: c949796473670f54ea5288864f602d64
   - enabled: 1
     path: Assets/Scenes/Pessoas.unity
@@ -27,5 +27,5 @@ EditorBuildSettings:
     path: Assets/Scenes/Prosperidade.unity
     guid: d15670a6d3b4e7b489296be6b2c38ea2
   m_configObjects:
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 6bb9faedd41a71944a31771d96e09af6, type: 3}
   m_UseUCBPForAssetBundles: 0
