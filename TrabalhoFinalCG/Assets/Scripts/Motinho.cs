@@ -1,31 +1,42 @@
 using UnityEngine;
+using UnityEngine.InputSystem; 
 
 [RequireComponent(typeof(Rigidbody))]
 public class ControleMotinho : MonoBehaviour
 {
     public float velocidade = 10000f;
     public float velocidadeVirar = 500f;
-    private Rigidbody rb; 
 
-    void Start()
+    private Rigidbody rb;
+    private MyInputActions controles; 
+    private Vector2 entradaMovimento;
+
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        controles = new MyInputActions();
+
+        controles.Player.Movimento.performed += ctx => entradaMovimento = ctx.ReadValue<Vector2>();
+
+        controles.Player.Movimento.canceled += ctx => entradaMovimento = Vector2.zero;
     }
 
-    // FixedUpdate() é usado para cálculos de física
+    void OnEnable()
+    {
+        controles.Enable();
+    }
+
+    void OnDisable()
+    {
+        controles.Disable();
+    }
+
     void FixedUpdate()
     {
-        // 1. Acelerar e Frear (W e S)
-        float inputAcelerar = Input.GetAxis("Vertical"); // Pega W (valor 1) ou S (valor -1)
+        float acelerar = entradaMovimento.y;
+        float virar = entradaMovimento.x;
 
-        // Adiciona força para frente (ou para trás)
-        // Usamos Time.deltaTime para a força ser consistente
-        rb.AddForce(transform.forward * inputAcelerar * velocidade * Time.fixedDeltaTime);
-
-        // 2. Virar (A e D)
-        float inputVirar = Input.GetAxis("Horizontal"); // Pega A (valor -1) ou D (valor 1)
-
-        // Adiciona "torque" (força de rotação) para virar
-        rb.AddTorque(transform.up * inputVirar * velocidadeVirar * Time.fixedDeltaTime);
+        rb.AddForce(transform.forward * acelerar * velocidade * Time.fixedDeltaTime);
+        rb.AddTorque(transform.up * virar * velocidadeVirar * Time.fixedDeltaTime);
     }
 }

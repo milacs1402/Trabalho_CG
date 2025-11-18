@@ -27,5 +27,5 @@ EditorBuildSettings:
     path: Assets/Scenes/Prosperidade.unity
     guid: d15670a6d3b4e7b489296be6b2c38ea2
   m_configObjects:
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 33689d413b0080540b33db818c6a59a2, type: 3}
   m_UseUCBPForAssetBundles: 0

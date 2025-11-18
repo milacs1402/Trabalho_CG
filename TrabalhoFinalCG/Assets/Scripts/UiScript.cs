@@ -3,39 +3,46 @@ using UnityEngine.SceneManagement;
 
 public class UiScript : MonoBehaviour
 {
+    public string chaveDesteMinigame;
     public GameObject telaPause;
     public GameObject instruc;
     private bool isPaused = false;
-    private string chavePessoas = "jaViuIntroPessoas";
-    private string chavePlaneta = "jaViuIntroPlaneta";
-    private string chaveProsperidade = "jaViuIntroProsperidade";
-    private string chavePaz = "jaViuIntroPaz";
 
     private void Start()
     {
-        if (PlayerPrefs.GetInt(chavePessoas, 0) == 0)
+        if (PlayerPrefs.GetInt(chaveDesteMinigame, 0) == 0)
         {
-            instruc.SetActive(true);
-            Time.timeScale = 0f;
+            MostrarInstrucoes();
         }
-        if (PlayerPrefs.GetInt(chavePlaneta, 0) == 0)
+        else
         {
-            instruc.SetActive(true);
-            Time.timeScale = 0f;
+            instrucJaVistas();
         }
-        if (PlayerPrefs.GetInt(chaveProsperidade, 0) == 0)
-        {
-            instruc.SetActive(true);
-            Time.timeScale = 0f;
-        }
-        if (PlayerPrefs.GetInt(chavePaz, 0) == 0)
-        {
-            instruc.SetActive(true);
-            Time.timeScale = 0f;
-        }
+    }
 
-        Continuar();
+    void MostrarInstrucoes()
+    {
+        if (instruc != null)
+        {
+            instruc.SetActive(true);
+            Time.timeScale = 0f; 
+        }
+    }
 
+    public void FecharInstrucoes()
+    {
+        PlayerPrefs.SetInt(chaveDesteMinigame, 1);
+        PlayerPrefs.Save();
+
+        instrucJaVistas();
+    }
+
+    void instrucJaVistas()
+    {
+        if (instruc != null)
+            instruc.SetActive(false);
+
+        Time.timeScale = 1f; 
     }
 
     private void Update()
@@ -78,30 +85,14 @@ public class UiScript : MonoBehaviour
     public void MudarMissao()
     {
         Time.timeScale = 1.0f;
-        PlayerPrefs.SetInt(chavePessoas, 0);
-        PlayerPrefs.SetInt(chavePlaneta, 0);
-        PlayerPrefs.SetInt(chaveProsperidade, 0);
-        PlayerPrefs.SetInt(chavePaz, 0);
+        PlayerPrefs.SetInt(chaveDesteMinigame, 0);
         SceneManager.LoadScene("Seleção");
     }
     public void VoltarMenu()
     {
         Time.timeScale = 1.0f;
-        PlayerPrefs.SetInt(chavePessoas, 0);
-        PlayerPrefs.SetInt(chavePlaneta, 0);
-        PlayerPrefs.SetInt(chaveProsperidade, 0);
-        PlayerPrefs.SetInt(chavePaz, 0);
+        PlayerPrefs.SetInt(chaveDesteMinigame, 0);
         SceneManager.LoadScene("Inicial");
-    }
-
-    public void JogarMiniGame()
-    {
-        instruc.SetActive(false);
-        PlayerPrefs.SetInt(chavePessoas, 1);
-        PlayerPrefs.SetInt(chavePlaneta, 1);
-        PlayerPrefs.SetInt(chaveProsperidade, 1);
-        PlayerPrefs.SetInt(chavePaz, 1);
-        PlayerPrefs.Save();
     }
 }
 
