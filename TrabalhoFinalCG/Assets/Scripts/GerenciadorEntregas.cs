@@ -1,25 +1,31 @@
+using System.Collections.Generic; // usar listas
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System.Collections.Generic; // usar listas
+using System.Collections;
 
 public class GerenciadorEntregas : MonoBehaviour
 {
     [Header("Configurações")]
     public List<GameObject> pontosDeEntrega;
     public TextMeshProUGUI timer;
+    public TextMeshProUGUI placar;
+    public GameObject PerdeuTempo;
     public float time;
-    public bool isTimeOver = false;
     public GameObject painelVitoria;
     public GameObject painelDerrota;
 
 
+    private float pontos = 0;
+    private bool isTimeOver = false;
     private int indiceAtual = 0; 
     private int entregasFeitas = 0;
     private int totalParaVencer;
+    private int PlacarGeral;
 
     void Start()
     {
+        PlacarGeral = PlayerPrefs.GetInt("PlacarGeral");
         totalParaVencer = pontosDeEntrega.Count; 
         entregasFeitas = 0;
         AtualizarUI();
@@ -50,6 +56,7 @@ public class GerenciadorEntregas : MonoBehaviour
         pontosDeEntrega[indiceAtual].SetActive(false);
 
         entregasFeitas++;
+        pontos++;
         AtualizarUI();
 
         if (entregasFeitas >= totalParaVencer)
@@ -58,7 +65,7 @@ public class GerenciadorEntregas : MonoBehaviour
         }
         else
         {
-            indiceAtual = Random.Range(0, pontosDeEntrega.Count);
+            indiceAtual++;
 
             AtivarPonto(indiceAtual);
         }
@@ -83,16 +90,50 @@ public class GerenciadorEntregas : MonoBehaviour
         }
     }
 
+    public void PerderTempo(float segundos)
+    {
+        time -= segundos;
+
+        Debug.Log("BATEU! Perdeu " + segundos + " segundos!");
+        StartCoroutine(MostrarFeedbackDeDano());
+        AtualizarUI(); 
+    }
+
+    IEnumerator MostrarFeedbackDeDano()
+    {
+        // 1. Mostra o texto "-5"
+        if (PerdeuTempo != null)
+        {
+            PerdeuTempo.SetActive(true);
+        }
+
+        // 2. Espera 1 segundo (o jogo continua rodando)
+        yield return new WaitForSeconds(2f);
+
+        // 3. Esconde o texto de novo
+        if (PerdeuTempo != null)
+        {
+            PerdeuTempo.SetActive(false);
+        }
+    }
     void AtualizarUI()
     {
         timer.text = time.ToString("F0");
+        placar.text = pontos.ToString("F0") + "/7";
     }
 
     void FimDeJogo()
     {
-        Debug.Log("Todas as entregas feitas!");
         if (painelVitoria != null)
             painelVitoria.SetActive(true);
         Time.timeScale = 0f;
+
+        if (PlayerPrefs.GetInt("PrimeiraVitoria1") == 1) //isso nn ta funcionandooooooooooooooooooo
+        {
+            PlayerPrefs.SetInt("PlacarGeral", PlacarGeral++);
+            PlayerPrefs.SetInt("PrimeiraVitoria1", 0);
+        }
+
+
     }
 }

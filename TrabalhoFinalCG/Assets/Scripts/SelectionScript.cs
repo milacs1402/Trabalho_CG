@@ -1,9 +1,18 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SelectionScript : MonoBehaviour
 {
-   public void Voltar()
+    public TextMeshProUGUI placar;
+    private int PlacarGeral;
+
+    public void Start()
+    {
+        PlacarGeral = PlayerPrefs.GetInt("PlacarGeral");
+        placar.text = PlacarGeral.ToString() + "/4";
+    }
+    public void Voltar()
     {
         SceneManager.LoadScene("Inicial");
     }
@@ -28,5 +37,6 @@ public class SelectionScript : MonoBehaviour
         SceneManager.LoadScene("Paz e Parceria");
     }
 
+   
 
 }

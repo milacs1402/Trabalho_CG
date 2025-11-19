@@ -39,4 +39,5 @@ public class MenuPrincipalManager : MonoBehaviour
         Debug.Log("abrindo site da ONU...");
         Application.OpenURL("https://brasil.un.org/pt-br/sdgs");
     }
+
 }
