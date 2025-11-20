@@ -15,6 +15,9 @@ public class ControleMotinho : MonoBehaviour
     [Range(0, 1)] 
     public float aderenciaDrift = 0.2f;   // Quanto menor, mais escorrega
 
+    [Header("Efeitos Visuais")]
+    public ParticleSystem fumaçaPneu;
+
     private Rigidbody rb;
     private MyInputActions controles; 
     private Vector2 entradaMovimento;
@@ -74,5 +77,21 @@ public class ControleMotinho : MonoBehaviour
 
         // 4. Devolve a velocidade calculada para o Rigidbody (Mundo)
         rb.linearVelocity = transform.TransformDirection(velocidadeLocal);
+    }
+    void ControlarEfeitos()
+    {
+        // Verifica se temos uma partícula atribuída
+        if (fumaçaPneu != null)
+        {
+            // Só solta fumaça se estiver segurando o botão de drift E a moto estiver se movendo
+            if (estaDriftando && rb.linearVelocity.magnitude > 2f)
+            {
+                if (!fumaçaPneu.isPlaying) fumaçaPneu.Play();
+            }
+            else
+            {
+                if (fumaçaPneu.isPlaying) fumaçaPneu.Stop();
+            }
+        }
     }
 }
