@@ -73,9 +73,7 @@ public class GerenciadorEntregas : MonoBehaviour
 
     void TimeCount()
     {
-        isTimeOver = false;
-
-        if(!isTimeOver && time > 0)
+        if(!isTimeOver)
         {
             time -= Time.deltaTime;
             AtualizarUI();
