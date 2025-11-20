@@ -1,0 +1,23 @@
+Gameplay
+melhorar movimentação da moto
+adicionar mais obstáculos
+adicionar mais pontos de entrega
+interações especificas a depender do ponto
+barreiras reais no mapa
+
+Sons
+musica
+moto (som do motor em standby e andando)
+sons nas interações 
+sons nos obstáculos
+
+UI
+refazer os menus k
+ui durante o jogo tbm
+
+animações
+moto (virar,drift?,tremer)
+
+VFX
+fumaça saindo do escapamento da moto
+
