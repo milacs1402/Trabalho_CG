@@ -4,21 +4,13 @@ using UnityEngine.SceneManagement;
 public class MenuPrincipalManager : MonoBehaviour
 {
     public GameObject painelMenuPrincipal; 
-    public GameObject painelComoJogar; 
 
     void Start()
     {
         painelMenuPrincipal.SetActive(true);
-        painelComoJogar.SetActive(false);
     }
 
-    public void MostrarPainelComoJogar()
-    {
-        painelMenuPrincipal.SetActive(false);
-        painelComoJogar.SetActive(true);
-    }
-
-    public void AceitarTermos()
+    public void Jogar()
     {
         SceneManager.LoadScene("Jogo");
     }

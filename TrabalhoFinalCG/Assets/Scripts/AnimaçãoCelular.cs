@@ -7,6 +7,7 @@ public class AnimacaoCelular : MonoBehaviour
     [Header("Configurações")]
     public RectTransform celularRect; // Arraste o objeto do celular aqui
     public GameObject fundinho;
+    public GameObject termos;
 
     [Header("Destino")]
     public Vector2 posicaoFinal;      // Vamos descobrir esses números jajá
@@ -15,7 +16,9 @@ public class AnimacaoCelular : MonoBehaviour
 
     public void IniciarJogo()
     {
-        fundinho.SetActive(true);
+        fundinho.SetActive(false);
+        termos.SetActive(false);
+        Time.timeScale = 1f;
         StartCoroutine(AnimarParaOCanto());
     }
 

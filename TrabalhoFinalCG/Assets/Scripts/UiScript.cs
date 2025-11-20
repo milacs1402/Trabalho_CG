@@ -3,46 +3,12 @@ using UnityEngine.SceneManagement;
 
 public class UiScript : MonoBehaviour
 {
-    public string chaveDesteMinigame;
     public GameObject telaPause;
-    public GameObject instruc;
     private bool isPaused = false;
 
     private void Start()
     {
-        if (PlayerPrefs.GetInt(chaveDesteMinigame, 0) == 0)
-        {
-            MostrarInstrucoes();
-        }
-        else
-        {
-            instrucJaVistas();
-        }
-    }
 
-    void MostrarInstrucoes()
-    {
-        if (instruc != null)
-        {
-            instruc.SetActive(true);
-            Time.timeScale = 0f; 
-        }
-    }
-
-    public void FecharInstrucoes()
-    {
-        PlayerPrefs.SetInt(chaveDesteMinigame, 1);
-        PlayerPrefs.Save();
-
-        instrucJaVistas();
-    }
-
-    void instrucJaVistas()
-    {
-        if (instruc != null)
-            instruc.SetActive(false);
-
-        Time.timeScale = 1f; 
     }
 
     private void Update()
@@ -60,6 +26,11 @@ public class UiScript : MonoBehaviour
             }
         }
 
+    }
+
+    public void LiTermos()
+    {
+        Time.timeScale = 1.0f;
     }
     public void Pausar()
     {
@@ -82,16 +53,9 @@ public class UiScript : MonoBehaviour
         
     }
 
-    public void MudarMissao()
-    {
-        Time.timeScale = 1.0f;
-        PlayerPrefs.SetInt(chaveDesteMinigame, 0);
-        SceneManager.LoadScene("Seleção");
-    }
     public void VoltarMenu()
     {
         Time.timeScale = 1.0f;
-        PlayerPrefs.SetInt(chaveDesteMinigame, 0);
         SceneManager.LoadScene("Inicial");
     }
 }
