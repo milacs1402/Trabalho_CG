@@ -18,9 +18,9 @@ public class MenuPrincipalManager : MonoBehaviour
         painelComoJogar.SetActive(true);
     }
 
-    public void IniciarSelecaoDeCena()
+    public void AceitarTermos()
     {
-        SceneManager.LoadScene("Seleção");
+        SceneManager.LoadScene("Jogo");
     }
 
     public void Creditos()
@@ -32,12 +32,6 @@ public class MenuPrincipalManager : MonoBehaviour
     {
         Debug.Log("saindo do jogo...");
         Application.Quit();
-    }
-
-    public void ODS()
-    {
-        Debug.Log("abrindo site da ONU...");
-        Application.OpenURL("https://brasil.un.org/pt-br/sdgs");
     }
 
 }
