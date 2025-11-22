@@ -556,7 +556,7 @@ MonoBehaviour:
   multiplicadorGiroDrift: 2.5
   aderenciaNormal: 0.95
   aderenciaDrift: 0.2
-  "fuma\xE7aPneu": {fileID: 0}
+  animatorPiloto: {fileID: 7184109143469323445}
 --- !u!114 &8158974440969802774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -665,6 +665,11 @@ PrefabInstance:
 --- !u!4 &3842478573279653583 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 996fbf1398253354090a6f7d52db33d0, type: 3}
+  m_PrefabInstance: {fileID: 3664101171022219556}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7184109143469323445 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 996fbf1398253354090a6f7d52db33d0, type: 3}
   m_PrefabInstance: {fileID: 3664101171022219556}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3747534949072850789
