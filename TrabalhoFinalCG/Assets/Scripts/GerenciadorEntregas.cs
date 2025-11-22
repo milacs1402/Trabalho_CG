@@ -14,6 +14,7 @@ public class GerenciadorEntregas : MonoBehaviour
     public float time;
     public GameObject painelVitoria;
     public GameObject painelDerrota;
+    public GPSNavegador gps;
 
 
     private float pontos = 0;
@@ -48,7 +49,17 @@ public class GerenciadorEntregas : MonoBehaviour
 
     void AtivarPonto(int index)
     {
+        // Ativa o visual do ponto novo
         pontosDeEntrega[index].SetActive(true);
+
+        // --- AQUI ESTÁ A CORREÇÃO ---
+        // Avisa o GPS: "Ei, o novo destino é esse aqui!"
+        if (gps != null)
+        {
+            // Estamos mudando a variável 'destino' dentro do outro script
+            gps.destino = pontosDeEntrega[index].transform;
+            Debug.Log("MUDEI O DESTINO PARA: " + pontosDeEntrega[index].name); // <--- OLHE O CONSOLE
+        }
     }
 
     public void EntregaRealizada()
