@@ -1,21 +1,24 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.UI; // Necessário para mexer na UI
+using UnityEngine.UI;
 
 public class AnimacaoCelular : MonoBehaviour
 {
     [Header("Configurações")]
-    public RectTransform celularRect; // Arraste o objeto do celular aqui
+    public RectTransform celularRect;
     public GameObject fundinho;
+    public GameObject termos;
 
     [Header("Destino")]
-    public Vector2 posicaoFinal;      // Vamos descobrir esses números jajá
-    public float escalaFinal = 0.3f;  // 30% do tamanho original
-    public float duracao = 1.5f;      // Quanto tempo demora a animação
+    public Vector2 posicaoFinal;     
+    public float escalaFinal = 0.3f;  
+    public float duracao = 1.5f;      
 
     public void IniciarJogo()
     {
-        fundinho.SetActive(true);
+        fundinho.SetActive(false);
+        termos.SetActive(false);
+        Time.timeScale = 1f;
         StartCoroutine(AnimarParaOCanto());
     }
 
@@ -53,11 +56,5 @@ public class AnimacaoCelular : MonoBehaviour
         celularRect.anchoredPosition = posicaoFinal;
         celularRect.localScale = escalaAlvo;
 
-        // 4. AQUI VOCÊ INICIA O JOGO REALMENTE!
-        // Ex: Ativar o script da moto, ligar o timer, etc.
-        Debug.Log("Animação terminou! Jogo começando...");
-
-        // Se precisar chamar outro script:
-        // FindFirstObjectByType<GerenciadorEntregas>().ComecarTimer();
     }
 }
