@@ -1,30 +1,41 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class UiScript : MonoBehaviour
 {
     public GameObject telaPause;
     private bool isPaused = false;
+    private MyInputActions controles; 
+
 
     private void Start()
     {
 
     }
 
-    private void Update()
+    private void Awake()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (isPaused)
-            {
-                Continuar();
-            }
+            controles = new MyInputActions();
 
-            else
-            {
-                Pausar();
-            }
+            controles.Player.Pause.performed += ctx => AlternarPause();
+    }
+
+    void OnEnable() => controles.Enable();
+    void OnDisable() => controles.Disable();
+    
+    public void AlternarPause()
+    {
+        if (isPaused)
+        {
+            Continuar();
         }
+        else
+        {
+            Pausar();
+        }
+
+        Time.timeScale = 1.0f; 
 
     }
 
@@ -46,7 +57,7 @@ public class UiScript : MonoBehaviour
         Time.timeScale = 1.0f;
     }
 
-    public void Recomeçar()
+    public void Recomecar()
     {
         Time.timeScale = 1.0f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);

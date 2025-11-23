@@ -19,6 +19,15 @@ public class ControleMotinho : MonoBehaviour
 
     public Animator animatorPiloto;
 
+    [Header("Áudio")]
+    public AudioSource audioMotor;       
+    public AudioSource audioBuzina; 
+    public AudioClip somBuzinaClip;
+
+    [Tooltip("Tom mínimo do motor (parado)")]
+    public float pitchMinimo = 1.0f; 
+    [Tooltip("Tom máximo do motor (velocidade máxima)")]
+    public float pitchMaximo = 3.0f;
 
     private Rigidbody rb;
     private MyInputActions controles; 
@@ -35,6 +44,8 @@ public class ControleMotinho : MonoBehaviour
 
         controles.Player.Drift.performed += ctx => estaDriftando = true;
         controles.Player.Drift.canceled += ctx => estaDriftando = false;
+    
+        controles.Player.Buzina.performed += ctx => TocarBuzina();
     }
 
     void OnEnable() => controles.Enable();
@@ -43,6 +54,7 @@ public class ControleMotinho : MonoBehaviour
     void Update()
     {
         AtualizarAnimacao();
+        AtualizarSomMotor();
     }
 
     void FixedUpdate()
@@ -77,11 +89,35 @@ public class ControleMotinho : MonoBehaviour
     {
         if (animatorPiloto != null)
         {
-            
             float inputFrenteTras = entradaMovimento.y;
-
-
             animatorPiloto.SetFloat("InputVertical", inputFrenteTras, 0.1f, Time.deltaTime);
         }
     }
+
+    void AtualizarSomMotor()
+    {
+        if (audioMotor == null) return;
+
+        float velocidadeAtual = rb.linearVelocity.magnitude;
+        
+        float velocidadeTopEstimada = 30f; 
+
+        float porcentagemVelocidade = Mathf.Clamp01(velocidadeAtual / velocidadeTopEstimada);
+
+        audioMotor.pitch = Mathf.Lerp(pitchMinimo, pitchMaximo, porcentagemVelocidade);
+    }
+
+    void TocarBuzina()
+    {
+        if (audioBuzina != null && somBuzinaClip != null)
+        {
+            if (!audioBuzina.isPlaying) 
+            {
+                audioBuzina.PlayOneShot(somBuzinaClip);
+            }
+
+        }
+    }
+
+
 }
