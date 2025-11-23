@@ -122,7 +122,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 907878910063823481, guid: c24aa809694b4854396cc717527e54be, type: 3}
         m_TargetAssemblyTypeName: UiScript, Assembly-CSharp
-        m_MethodName: "Recome\xE7ar"
+        m_MethodName: Recomecar
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

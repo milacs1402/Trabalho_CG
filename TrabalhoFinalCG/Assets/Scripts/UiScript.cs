@@ -67,7 +67,7 @@ public class UiScript : MonoBehaviour
     public void VoltarMenu()
     {
         Time.timeScale = 1.0f;
-        SceneManager.LoadScene("Inicial");
+        SceneManager.LoadScene("MenuInicial");
     }
 }
 
