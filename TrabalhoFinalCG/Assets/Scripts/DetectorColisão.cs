@@ -1,13 +1,39 @@
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class DetectorDeColisao : MonoBehaviour
 {
-    [Header("Configurações")]
+    [Header("Regras de Jogo")]    
     public float punicaoEmSegundos = 5f;
     public float tempoDeImunidade = 2f; // Fica 2 segundos sem perder tempo de novo
 
+    [Header("Sensação de Impacto")]
+
+    public AudioClip somBatida;
+    //public ParticleSystem faiscasColisao; 
+    
+    [Header("Visuais da Moto")]
+
+    public Renderer[] modelosVisuais;
+    
+    public float forcaDoRecuo = 5000f; 
     private bool estaImune = false;
     private float tempoImuneAtual = 0f;
+
+    private AudioSource audioSource;
+
+    private Rigidbody rb;
+
+    void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        rb = GetComponent<Rigidbody>();
+        
+        if (modelosVisuais == null || modelosVisuais.Length == 0)
+        {
+            modelosVisuais = GetComponentsInChildren<Renderer>();
+        }
+    }
 
     void Update()
     {
@@ -15,9 +41,11 @@ public class DetectorDeColisao : MonoBehaviour
         if (estaImune)
         {
             tempoImuneAtual -= Time.deltaTime;
+            EfeitoPiscar();
+            
             if (tempoImuneAtual <= 0)
             {
-                estaImune = false;
+                PararImunidade();
             }
         }
     }
@@ -25,24 +53,58 @@ public class DetectorDeColisao : MonoBehaviour
     // Detecta colisão física 
     void OnCollisionEnter(Collision other)
     {
-        // 1. Verifica se não esta imune e se bateu
+
         if (!estaImune && other.gameObject.CompareTag("obstaculo"))
         {
-            // 2. Tenta achar o script do Timer na cena
-            GerenciadorEntregas timer = FindFirstObjectByType<GerenciadorEntregas>();
-
-            if (timer != null)
-            {
-                // 3. Tira o tempo
-                timer.PerderTempo(punicaoEmSegundos);
-
-                // 4. Ativa a imunidade para não perder de novo imediatamente
-                estaImune = true;
-                tempoImuneAtual = tempoDeImunidade;
-
-                // colocar som de batida
-                // AudioSource.PlayClipAtPoint(somBatida, transform.position);
-            }
+            AplicarDano(other);
         }
     }
+
+    void AplicarDano(Collision other)
+    {
+        GerenciadorEntregas timer = FindFirstObjectByType<GerenciadorEntregas>();
+        if (timer != null)
+        {
+            timer.PerderTempo(punicaoEmSegundos);
+        }
+
+        if (somBatida != null)
+        {
+            audioSource.PlayOneShot(somBatida);
+        }
+
+//        if (faiscasColisao != null)
+//        {
+//            faiscasColisao.transform.position = other.contacts[0].point;
+//            faiscasColisao.Play();
+//        }
+
+        Vector3 direcaoImpacto = (transform.position - other.contacts[0].point).normalized;
+        rb.AddForce((direcaoImpacto + Vector3.up) * forcaDoRecuo, ForceMode.Impulse);
+
+        estaImune = true;
+        tempoImuneAtual = tempoDeImunidade;
+    }
+
+    void EfeitoPiscar()
+    {
+
+        bool deveAparecer = Mathf.Repeat(Time.time * 10f, 1f) > 0.5f;
+
+        foreach (Renderer modelo in modelosVisuais)
+        {
+            if(modelo != null) modelo.enabled = deveAparecer;
+        }
+    }
+
+    void PararImunidade()
+    {
+        estaImune = false;
+        
+        foreach (Renderer modelo in modelosVisuais)
+        {
+            if(modelo != null) modelo.enabled = true;
+        }
+    }
+
 }
