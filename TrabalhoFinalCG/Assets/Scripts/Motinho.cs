@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem; 
 
-public class ControleMotinho : MonoBehaviour
+public class Motinho : MonoBehaviour
 {
     [Header("Configurações da Moto")]
     public float velocidade = 10000f;

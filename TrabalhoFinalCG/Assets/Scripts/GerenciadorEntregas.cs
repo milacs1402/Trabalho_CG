@@ -1,4 +1,4 @@
-using System.Collections.Generic; // usar listas
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,39 +6,55 @@ using System.Collections;
 
 public class GerenciadorEntregas : MonoBehaviour
 {
+    [Header("Meta de Vitória")]
+    public float metaDeDinheiro = 200f; 
+    public float time = 120f;
+
     [Header("Configurações")]
     public List<GameObject> pontosDeEntrega;
     public TextMeshProUGUI timer;
-    public TextMeshProUGUI placar;
+    public TextMeshProUGUI placar; 
+
+    [Header("Feedbacks Visuais")]
     public GameObject PerdeuTempo;
-    public float time;
+    public GameObject feedbackDinheiroObj;
+    public TextMeshProUGUI feedbackDinheiroTxt;
+
     public GameObject painelVitoria;
     public GameObject painelDerrota;
+
+    [Header("Referências Externas")]
     public GPSNavegador gps;
+    public Minigame game;
 
+    public bool modoUrgencia = false;
+    public bool atingiuMeta = false;
 
-    private float pontos = 0;
+    private float dinheiroTotal = 0;
     private bool isTimeOver = false;
-    private int indiceAtual = 0; 
+    private int indiceAtual = -1; 
     private int entregasFeitas = 0;
-    private int totalParaVencer;
-    private int PlacarGeral;
 
     void Start()
     {
-        PlacarGeral = PlayerPrefs.GetInt("PlacarGeral");
-        totalParaVencer = pontosDeEntrega.Count; 
         entregasFeitas = 0;
+        dinheiroTotal = 0;
+
         AtualizarUI();
+
 
         foreach (GameObject ponto in pontosDeEntrega)
         {
             ponto.SetActive(false);
         }
 
+        if (PerdeuTempo != null) PerdeuTempo.SetActive(false);
+        if (feedbackDinheiroObj != null) feedbackDinheiroObj.SetActive(false);
+
+
         if (pontosDeEntrega.Count > 0)
         {
-            AtivarPonto(0);
+            GerarProximoDestino();
         }
     }
 
@@ -47,52 +63,94 @@ public class GerenciadorEntregas : MonoBehaviour
         TimeCount();
     }
 
+
+    void GerarProximoDestino()
+    {
+        if (pontosDeEntrega.Count <= 1)
+        {
+            AtivarPonto(0);
+            return;
+        }
+
+        int novoIndex = indiceAtual;
+
+        while (novoIndex == indiceAtual)
+        {
+            novoIndex = Random.Range(0, pontosDeEntrega.Count);
+        }
+
+        indiceAtual = novoIndex;
+        AtivarPonto(indiceAtual);
+    }
+
     void AtivarPonto(int index)
     {
-        // Ativa o visual do ponto novo
-        pontosDeEntrega[index].SetActive(true);
-
-        // --- AQUI ESTÁ A CORREÇÃO ---
-        // Avisa o GPS: "Ei, o novo destino é esse aqui!"
-        if (gps != null)
+        if (index < pontosDeEntrega.Count)
         {
-            // Estamos mudando a variável 'destino' dentro do outro script
-            gps.destino = pontosDeEntrega[index].transform;
-            Debug.Log("MUDEI O DESTINO PARA: " + pontosDeEntrega[index].name); // <--- OLHE O CONSOLE
+            pontosDeEntrega[index].SetActive(true);
+            if (gps != null) gps.destino = pontosDeEntrega[index].transform;
+            Debug.Log("Novo destino: " + pontosDeEntrega[index].name);
         }
     }
 
+
     public void EntregaRealizada()
     {
-        pontosDeEntrega[indiceAtual].SetActive(false);
+        if (indiceAtual >= 0 && indiceAtual < pontosDeEntrega.Count)
+            pontosDeEntrega[indiceAtual].SetActive(false);
 
-        entregasFeitas++;
-        pontos++;
+        if (game != null) game.IniciarMinigame();
+    }
+
+
+    public void ConfirmarEntregaReal(float dinheiroGanho)
+    {
+        dinheiroTotal += dinheiroGanho;
+
+        if (dinheiroTotal >= metaDeDinheiro)
+        {
+            atingiuMeta = true;
+        }
         AtualizarUI();
 
-        if (entregasFeitas >= totalParaVencer)
+
+        StartCoroutine(MostrarFeedbackDinheiro(dinheiroGanho));
+
+
+        if (atingiuMeta)
         {
             FimDeJogo();
         }
         else
         {
-            indiceAtual++;
+            GerarProximoDestino();
+        }
+    }
 
-            AtivarPonto(indiceAtual);
+    IEnumerator MostrarFeedbackDinheiro(float valor)
+    {
+        if (feedbackDinheiroObj != null && feedbackDinheiroTxt != null)
+        {
+            feedbackDinheiroTxt.text = "+ R$ " + valor.ToString("F0");
+            feedbackDinheiroObj.SetActive(true);
+            yield return new WaitForSeconds(2f);
+            feedbackDinheiroObj.SetActive(false);
         }
     }
 
     void TimeCount()
     {
-        if(!isTimeOver)
+        if (!isTimeOver)
         {
-            time -= Time.deltaTime;
+            float passoDoTempo = modoUrgencia ? Time.unscaledDeltaTime : Time.deltaTime;
+            time -= passoDoTempo;
             AtualizarUI();
 
-            if(time <= 0)
+            if (time <= 0)
             {
                 time = 0;
                 painelDerrota.SetActive(true);
+                modoUrgencia = false;
                 Time.timeScale = 0f;
                 isTimeOver = true;
             }
@@ -102,47 +160,32 @@ public class GerenciadorEntregas : MonoBehaviour
     public void PerderTempo(float segundos)
     {
         time -= segundos;
-
-        Debug.Log("BATEU! Perdeu " + segundos + " segundos!");
         StartCoroutine(MostrarFeedbackDeDano());
-        AtualizarUI(); 
+        AtualizarUI();
     }
 
     IEnumerator MostrarFeedbackDeDano()
     {
-        // 1. Mostra o texto "-5"
         if (PerdeuTempo != null)
         {
             PerdeuTempo.SetActive(true);
-        }
-
-        // 2. Espera 1 segundo (o jogo continua rodando)
-        yield return new WaitForSeconds(2f);
-
-        // 3. Esconde o texto de novo
-        if (PerdeuTempo != null)
-        {
+            yield return new WaitForSeconds(1.5f);
             PerdeuTempo.SetActive(false);
         }
     }
+
     void AtualizarUI()
     {
-        timer.text = time.ToString("F0");
-        placar.text = pontos.ToString("F0") + "/7";
+        if (timer != null) timer.text = time.ToString("F0");
+
+        if (placar != null)
+            placar.text = "R$ " + dinheiroTotal.ToString("F0") + ",00";
     }
 
     void FimDeJogo()
     {
-        if (painelVitoria != null)
-            painelVitoria.SetActive(true);
+
+        painelVitoria.SetActive(true);
         Time.timeScale = 0f;
-
-        if (PlayerPrefs.GetInt("PrimeiraVitoria1") == 1) //isso nn ta funcionandooooooooooooooooooo
-        {
-            PlayerPrefs.SetInt("PlacarGeral", PlacarGeral++);
-            PlayerPrefs.SetInt("PrimeiraVitoria1", 0);
-        }
-
-
     }
 }

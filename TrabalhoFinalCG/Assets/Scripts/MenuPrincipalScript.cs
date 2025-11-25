@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuPrincipalManager : MonoBehaviour
 {
-    public GameObject painelMenuPrincipal; 
+    public GameObject painelMenuPrincipal;
 
     void Start()
     {

@@ -38,11 +38,6 @@ public class UiScript : MonoBehaviour
         Time.timeScale = 1.0f; 
 
     }
-
-    public void LiTermos()
-    {
-        Time.timeScale = 1.0f;
-    }
     public void Pausar()
     {
         isPaused = true;
