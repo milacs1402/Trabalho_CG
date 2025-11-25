@@ -6,12 +6,12 @@ using System.Collections;
 public class Minigame : MonoBehaviour
 {
 
-    public GameObject painelMinigame;     // Onde está a barra de espaço
+    public GameObject painelMinigame;     
     public Slider barraDeProgresso;
-    public VideoPlayer videoPlayer;       // O vídeo da escada
-    public RawImage telaDoVideo;          // A imagem onde o vídeo passa
+    public VideoPlayer videoPlayer;       // video escada
+    public RawImage telaDoVideo;          // iamagem onde o video passa
     public AnimacaoCelular animacaoCelular; 
-    public float dificuldade = 0.15f;     // Quanto enche por clique
+    public float dificuldade = 0.15f;     // quanto enche por clique 
     public AudioSource musicaCidade;     
     public AudioSource audioMinigame;    
     public AudioClip somChegada;         
@@ -44,7 +44,7 @@ public class Minigame : MonoBehaviour
         {
             tempoGasto += Time.unscaledDeltaTime;
 
-            // Mecânica de apertar botão
+            // joguinho de apertar botão
             if (Input.GetKeyDown(KeyCode.Space)) 
             {
                 barraDeProgresso.value += dificuldade;
@@ -63,7 +63,7 @@ public class Minigame : MonoBehaviour
     {
         float fatorDemora = Mathf.Clamp01(tempoGasto / tempoParaPiorNota);
 
-        // Faz uma mistura (Lerp) entre 50 e 10 baseado na demora
+        // faz uma mistura (Lerp) entre 50 e 10 baseado na demora
         // Se fator for 0, retorna Maximo. Se for 1, retorna Minimo.
         return Mathf.Lerp(valorMaximo, valorMinimo, fatorDemora);
     }
