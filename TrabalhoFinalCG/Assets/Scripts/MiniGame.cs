@@ -14,8 +14,7 @@ public class Minigame : MonoBehaviour
     public float dificuldade = 0.15f;     // quanto enche por clique 
     public AudioSource musicaCidade;     
     public AudioSource audioMinigame;    
-    public AudioClip somChegada;         
-    public AudioClip dinheiro;         
+    public AudioClip somChegada;               
     public AudioClip musicaTensao;
     public AudioSource somMotor;
     public float atrasoParaComecar = 0.5f;
@@ -99,42 +98,30 @@ public class Minigame : MonoBehaviour
 
     }
 
-    public void FinalizarEntrega()
+
+       public void FinalizarEntrega()
     {
         minigameAtivo = false;
 
-        float lucro = CalcularRecompensa();
+        if (audioMinigame != null) audioMinigame.Stop();
+        if (musicaCidade != null) musicaCidade.UnPause();
+        if (somMotor != null) somMotor.UnPause();
+
+        painelMinigame.SetActive(false);
+        if (telaDoVideo != null) telaDoVideo.gameObject.SetActive(false);
+        if (videoPlayer != null) videoPlayer.Stop();
+        if (animacaoCelular != null) animacaoCelular.MinimizarCelular();
+
+        Time.timeScale = 1f;
 
         if (gerenciador != null)
         {
-            gerenciador.modoUrgencia = false; 
-            gerenciador.ConfirmarEntregaReal(lucro); 
+            gerenciador.modoUrgencia = false;
+            float grana = CalcularRecompensa();
+            gerenciador.ConfirmarEntregaReal(grana);
         }
-
-        if(gerenciador.atingiuMeta == false)
-        {
-            Time.timeScale = 0f; //NAO SEI PQ N FUNFA
-        }
-        else
-        {
-            Time.timeScale = 1f;
-        }
-
-        if (tempo != null)
-            tempo.modoUrgencia = false;
-
-        audioMinigame.Stop();
-
-        AudioSource.PlayClipAtPoint(dinheiro, Camera.main.transform.position, 1.0f);
-
-        musicaCidade.UnPause();
-        somMotor.UnPause();
-
-        painelMinigame.SetActive(false);
-        telaDoVideo.gameObject.SetActive(false);
-        videoPlayer.Stop();
-        StartCoroutine(celular.MinimizarCelular());
     }
+
 
     IEnumerator SequenciaDeInicio()
     {

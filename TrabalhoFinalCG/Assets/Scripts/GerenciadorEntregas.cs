@@ -32,7 +32,10 @@ public class GerenciadorEntregas : MonoBehaviour
 
     private float dinheiroTotal = 0;
     private bool isTimeOver = false;
-    private int indiceAtual = -1; 
+    private int indiceAtual = -1;
+
+    public AudioSource audioSourceGerente; 
+    public AudioClip somDinheiro;       
 
     void Start()
     {
@@ -58,6 +61,8 @@ public class GerenciadorEntregas : MonoBehaviour
 
     private void Update()
     {
+        if (isTimeOver) return;
+
         TimeCount();
     }
 
@@ -129,9 +134,17 @@ public class GerenciadorEntregas : MonoBehaviour
     {
         if (feedbackDinheiroObj != null && feedbackDinheiroTxt != null)
         {
+            if (audioSourceGerente != null && somDinheiro != null)
+            {
+                audioSourceGerente.PlayOneShot(somDinheiro);
+            }
+
             feedbackDinheiroTxt.text = "+ R$ " + valor.ToString("F0");
+
             feedbackDinheiroObj.SetActive(true);
+
             yield return new WaitForSeconds(2f);
+
             feedbackDinheiroObj.SetActive(false);
         }
     }
@@ -182,8 +195,9 @@ public class GerenciadorEntregas : MonoBehaviour
 
     void FimDeJogo()
     {
+        if (painelVitoria != null) painelVitoria.SetActive(true);
 
-        painelVitoria.SetActive(true);
+        isTimeOver = true; 
         Time.timeScale = 0f;
     }
 }
