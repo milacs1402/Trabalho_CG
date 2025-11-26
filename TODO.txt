@@ -2,7 +2,7 @@ Gameplay
 melhorar movimentação da moto OK (calibrar)
 adicionar mais obstáculos OK
 adicionar mais pontos de entrega OK
-barreiras reais no mapa
+barreiras reais no mapa OK
 
 Sons
 musica OK 
