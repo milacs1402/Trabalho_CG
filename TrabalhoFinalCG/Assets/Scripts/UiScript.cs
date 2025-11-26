@@ -35,8 +35,6 @@ public class UiScript : MonoBehaviour
             Pausar();
         }
 
-        Time.timeScale = 1.0f; 
-
     }
     public void Pausar()
     {

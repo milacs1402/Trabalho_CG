@@ -22,6 +22,7 @@ public class Motinho : MonoBehaviour
     public AudioSource audioMotor;       
     public AudioSource audioBuzina; 
     public AudioClip somBuzinaClip;
+    public bool estaDriftando;
 
     [Tooltip("Tom mínimo do motor (parado)")]
     public float pitchMinimo = 1.0f; 
@@ -31,7 +32,7 @@ public class Motinho : MonoBehaviour
     private Rigidbody rb;
     private MyInputActions controles; 
     private Vector2 entradaMovimento;
-    private bool estaDriftando; 
+
 
     void Awake()
     {

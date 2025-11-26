@@ -33,11 +33,9 @@ public class GerenciadorEntregas : MonoBehaviour
     private float dinheiroTotal = 0;
     private bool isTimeOver = false;
     private int indiceAtual = -1; 
-    private int entregasFeitas = 0;
 
     void Start()
     {
-        entregasFeitas = 0;
         dinheiroTotal = 0;
 
         AtualizarUI();
