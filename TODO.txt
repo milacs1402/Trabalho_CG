@@ -12,7 +12,7 @@ sons nos obstáculos OK
 
 UI
 refazer os menus OK
-ui durante o jogo tbm
+ui durante o jogo tbm OK
 
 animações
 moto (virar,drift?,tremer)
