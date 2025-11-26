@@ -1,15 +1,14 @@
 Gameplay
 melhorar movimentação da moto OK (calibrar)
-adicionar mais obstáculos
-adicionar mais pontos de entrega
-interações especificas a depender do ponto
+adicionar mais obstáculos OK
+adicionar mais pontos de entrega OK
 barreiras reais no mapa
 
 Sons
 musica OK 
 moto (som do motor em standby e andando) OK
-sons nas interações 
-sons nos obstáculos
+sons nas interações OK
+sons nos obstáculos OK
 
 UI
 refazer os menus OK
@@ -20,4 +19,4 @@ moto (virar,drift?,tremer)
 
 VFX
 fumaça saindo do escapamento da moto OK
-rastro do pneu 
+rastro do pneu OK
