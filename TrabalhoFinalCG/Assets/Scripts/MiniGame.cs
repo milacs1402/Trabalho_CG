@@ -23,18 +23,17 @@ public class Minigame : MonoBehaviour
     public float valorMinimo = 10f;    
     public float tempoParaPiorNota = 5f;
     public GerenciadorEntregas gerenciador;
+    public AnimacaoCelular celular;
 
     private float tempoGasto = 0f;
     private bool minigameAtivo = false;
-    private AnimacaoCelular celular;
+
 
 
     void Start()
     {
         painelMinigame.SetActive(false);
         if (telaDoVideo != null) telaDoVideo.gameObject.SetActive(false);
-        gerenciador = FindFirstObjectByType<GerenciadorEntregas>();
-        celular = FindFirstObjectByType<AnimacaoCelular>();
     }
 
     void Update()
@@ -110,7 +109,7 @@ public class Minigame : MonoBehaviour
         painelMinigame.SetActive(false);
         if (telaDoVideo != null) telaDoVideo.gameObject.SetActive(false);
         if (videoPlayer != null) videoPlayer.Stop();
-        if (animacaoCelular != null) animacaoCelular.MinimizarCelular();
+        if (animacaoCelular != null) StartCoroutine(celular.MinimizarCelular()); 
 
         Time.timeScale = 1f;
 
