@@ -28,7 +28,7 @@ O jogador assume o papel de um entregador que precisa correr contra o tempo para
 1.  Clone este repositório.
 2.  Abra o **Unity Hub**.
 3.  Adicione a pasta do projeto e abra.
-4.  Abra a cena `MenuInicial` (ou a cena principal do jogo).
+4.  Abra a cena `MenuInicial`.
 5.  Dê Play!
 
 ---
